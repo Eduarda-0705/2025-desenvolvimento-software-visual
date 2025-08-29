@@ -1,0 +1,9 @@
+### Requisição para a raiz
+GET http://localhost:5244/
+
+### Requisição para a funcionalidade com Get
+GET http://localhost:5244/funcionalidade
+
+
+### Requisição para a funcionalidade com Post
+POST  http://localhost:5244/funcionalidade
