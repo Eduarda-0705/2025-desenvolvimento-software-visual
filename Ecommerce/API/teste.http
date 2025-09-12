@@ -9,7 +9,10 @@ POST http://localhost:5244/api/produto/cadastrar
 Content-Type: application/json
 
 {
-    "nome" : "Mouse",
+    "nome" : "Notebook",
      "quantidade" : 123,
      "preco" : 85.5
 }
+
+### Buscar produto por nome
+GET http://localhost:5244/api/produto/buscar
