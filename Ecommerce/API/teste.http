@@ -11,8 +11,21 @@ Content-Type: application/json
 {
     "nome" : "Notebook",
      "quantidade" : 123,
-     "preco" : 85.5
+     "preco" : 3500
 }
 
 ### Buscar produto por nome
-GET http://localhost:5244/api/produto/buscar
+GET http://localhost:5244/api/produto/buscar/Notebook
+
+### Remover produto por id
+DELETE  http://localhost:5244/api/produto/remover/
+
+### Alterar produto por id
+PATCH http://localhost:5244/api/produto/alterar/112aab04-16ab-48df-8ec4-1ad4f55710ac
+Content-Type: application/json
+
+{
+    "nome" : "MacBook",
+     "quantidade" : 123,
+     "preco" : 3500
+}

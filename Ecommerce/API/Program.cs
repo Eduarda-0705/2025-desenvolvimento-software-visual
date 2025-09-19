@@ -18,6 +18,7 @@ List<Produto> produtos = new List<Produto>();
 //Requisições
 // - Endereço/URL
 // - Método HTTP
+// - Dados:rota (URL) e corpo (opcional)
 
 //Respostas
 
@@ -30,6 +31,7 @@ List<Produto> produtos = new List<Produto>();
 
 app.MapGet("/", () => "API de Produtos");
 
+// Listar Produtos
 app.MapGet("/api/produto/listar", () =>
 {
     //Validar se existe alguma coisa dentro da lista
@@ -40,6 +42,7 @@ app.MapGet("/api/produto/listar", () =>
     return Results.BadRequest("Lista vazia.");
 });
 
+// Cadastrar Produto
 app.MapPost("/api/produto/cadastrar", ([FromBody] Produto produto) =>
 {
     foreach (Produto produtoCadastrado in produtos)
@@ -53,9 +56,9 @@ app.MapPost("/api/produto/cadastrar", ([FromBody] Produto produto) =>
     return Results.Created("", produto);
 });
 
-app.MapGet("/api/produto/buscar" , () =>
+// Buscar Produto
+app.MapGet("/api/produto/buscar/{nome}" , ([FromRoute] string nome) =>
     {
-        string nome = "Monitor";
         // foreach (Produto produtoCadastrado in produtos){
         //     if(produtoCadastrado.Nome == nome){
         //         return Results.Ok(produtoCadastrado);
@@ -72,6 +75,36 @@ app.MapGet("/api/produto/buscar" , () =>
         return Results.Ok(resultado);
 
     });
+
+// Remover produto pelo id
+app.MapDelete("/api/produto/remover/{id}", ([FromRoute] string id) =>
+    {
+       
+        Produto? resultado = produtos.FirstOrDefault(x => x.Id == id);
+        if(resultado == null){
+            return Results.NotFound("Produto não encontrado");
+        }
+        produtos.Remove(resultado);
+        return Results.Ok(resultado);
+
+    });
+
+// Alterar produto pelo nome
+app.MapPatch("/api/produto/alterar/{id}", ([FromRoute] string id,
+[FromBody] Produto produtoAlterado) =>
+    {
+       
+        Produto? resultado = produtos.FirstOrDefault(x => x.Id == id);
+        if(resultado == null){
+            return Results.NotFound("Produto não encontrado");
+        }
+        resultado.Nome = produtoAlterado.Nome;
+        resultado.Quantidade = produtoAlterado.Quantidade;
+        resultado.Preco = produtoAlterado.Preco;
+        return Results.Ok(resultado);
+
+    });
+
 
 
 app.Run();
