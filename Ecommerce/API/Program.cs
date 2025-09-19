@@ -6,14 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 // Lista com Produtos fixos
-List<Produto> produtos = new List<Produto>();
-// {
-//     new Produto { Nome = "Notebook", Quantidade = 10, Preco = 3500.00 },
-//     new Produto { Nome = "Mouse", Quantidade = 50, Preco = 45.90 },
-//     new Produto { Nome = "Teclado", Quantidade = 30, Preco = 79.99 },
-//     new Produto { Nome = "Monitor", Quantidade = 15, Preco = 899.00 },
-//     new Produto { Nome = "Headset", Quantidade = 20, Preco = 120.50 }
-// };
+List<Produto> produtos = new List<Produto>
+{
+    new Produto { Nome = "Notebook", Quantidade = 10, Preco = 3500.00 },
+    new Produto { Nome = "Mouse", Quantidade = 50, Preco = 45.90 },
+    new Produto { Nome = "Teclado", Quantidade = 30, Preco = 79.99 },
+    new Produto { Nome = "Monitor", Quantidade = 15, Preco = 899.00 },
+    new Produto { Nome = "Headset", Quantidade = 20, Preco = 120.50 }
+};
 //Funcionalidades
 //Requisições
 // - Endereço/URL
@@ -108,6 +108,9 @@ app.MapPatch("/api/produto/alterar/{id}", ([FromRoute] string id,
 
 
 app.Run();
+
+AppDataContext ctx = new AppDataContext();
+
 
 
 

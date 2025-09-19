@@ -23,7 +23,6 @@ namespace API.Models;
     //C#
     //? Eu sei que pode dar problema/mas não estamos resoveldo o problema.
 
-
 public class Produto
 {
  
@@ -34,7 +33,7 @@ public class Produto
     }
 
     public string Id { get; set; }
-    public string Nome { get; set; }
+    public string Nome { get; set; } = String.Empty;
     public int Quantidade { get; set; }
     public double Preco { get; set; }
     public DateTime CriadoEm { get; set; }
