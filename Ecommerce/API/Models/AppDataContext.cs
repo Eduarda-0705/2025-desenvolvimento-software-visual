@@ -7,6 +7,8 @@ namespace API.Models;
 //1 - Criar a erença da classe DbContext
 //2 - Criar os atributos que vão representar as tabelas do Banco de Dados
 //3 - Configurar as informações do seu Banco de Dados
+
+//Entity Framework : Code First
 public class AppDataContext : DbContext
 {
     public DbSet<Produto> Produtos { get; set; }

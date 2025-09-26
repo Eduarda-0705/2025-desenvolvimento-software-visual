@@ -9,13 +9,14 @@ POST http://localhost:5244/api/produto/cadastrar
 Content-Type: application/json
 
 {
-    "nome" : "Notebook",
-     "quantidade" : 123,
-     "preco" : 3500
+    "nome" : "Teclado",
+    "descricao" : "Eletrônico",
+    "quantidade" : 123,
+    "preco" : 3500
 }
 
-### Buscar produto por nome
-GET http://localhost:5244/api/produto/buscar/Notebook
+### Buscar produto por id
+GET http://localhost:5244/api/produto/buscar/112aab04-16ab-48df-8ec4-1ad4f55710ac
 
 ### Remover produto por id
 DELETE  http://localhost:5244/api/produto/remover/

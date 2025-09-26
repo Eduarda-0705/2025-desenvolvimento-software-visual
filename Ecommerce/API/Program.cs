@@ -1,8 +1,10 @@
 using API.Models;
 using Microsoft.AspNetCore.Mvc;
 
-Console.Clear();
+//Console.Clear();
 var builder = WebApplication.CreateBuilder(args);
+//Adicionar um serviço de banco de dados na aplicação
+builder.Services.AddDbContext<AppDataContext>();
 var app = builder.Build();
 
 // Lista com Produtos fixos
@@ -32,43 +34,36 @@ List<Produto> produtos = new List<Produto>
 app.MapGet("/", () => "API de Produtos");
 
 // Listar Produtos
-app.MapGet("/api/produto/listar", () =>
+app.MapGet("/api/produto/listar", ([FromServices] AppDataContext ctx) =>
 {
     //Validar se existe alguma coisa dentro da lista
-    if(produtos.Count > 0)
+    if(ctx.Produtos.Any())
     {  
-    return Results.Ok(produtos);
+    return Results.Ok(ctx.Produtos.ToList());
     }
     return Results.BadRequest("Lista vazia.");
 });
 
 // Cadastrar Produto
-app.MapPost("/api/produto/cadastrar", ([FromBody] Produto produto) =>
-{
-    foreach (Produto produtoCadastrado in produtos)
+app.MapPost("/api/produto/cadastrar", ([FromBody] Produto produto,
+[FromServices] AppDataContext ctx) =>
     {
-        if(produtoCadastrado.Nome == produto.Nome)
+        Produto? resultado = ctx.Produtos.FirstOrDefault(x => x.Nome == produto.Nome);
+        if(resultado is not null)
         {
-            return Results.Conflict("Produto já cadastrado!");
+            return Results.Conflict("Produto já existente");
         }
-    }
-    produtos.Add(produto);
-    return Results.Created("", produto);
-});
+        ctx.Produtos.Add(produto);
+        ctx.SaveChanges();
+        return Results.Created("", produto);
+    });
 
-// Buscar Produto
-app.MapGet("/api/produto/buscar/{nome}" , ([FromRoute] string nome) =>
+// Buscar Produto pelo id
+app.MapGet("/api/produto/buscar/{id}" , ([FromRoute] string id,
+[FromServices] AppDataContext ctx) =>
     {
-        // foreach (Produto produtoCadastrado in produtos){
-        //     if(produtoCadastrado.Nome == nome){
-        //         return Results.Ok(produtoCadastrado);
-        //     }
-        // }
-        // return Results.NotFoud("Produto não cadastrado");
-
-        //Expressão lambda
         // Produto produto = produtos.FirstOrDefault(x => x.Contains (nome));
-        Produto? resultado = produtos.FirstOrDefault(x => x.Nome == nome);
+        Produto? resultado = ctx.Produtos.Find(id);
         if(resultado == null){
             return Results.NotFound("Produto não encontrado");
         }

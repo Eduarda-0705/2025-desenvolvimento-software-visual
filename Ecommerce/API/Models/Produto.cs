@@ -33,7 +33,8 @@ public class Produto
     }
 
     public string Id { get; set; }
-    public string Nome { get; set; } = String.Empty;
+    public string Nome { get; set; } = string.Empty;
+    public string Descricao { get; set; } = string.Empty;
     public int Quantidade { get; set; }
     public double Preco { get; set; }
     public DateTime CriadoEm { get; set; }
