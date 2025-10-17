@@ -5,6 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 var builder = WebApplication.CreateBuilder(args);
 //Adicionar um serviço de banco de dados na aplicação
 builder.Services.AddDbContext<AppDataContext>();
+
+builder.Services.AddCors(options =>
+    options.AddPolicy("Acesso Total",
+    configs => configs
+    .AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+));
+
 var app = builder.Build();
 
 // Lista com Produtos fixos
@@ -105,8 +114,7 @@ app.MapPatch("/api/produto/alterar/{id}", ([FromRoute] string id,
 
     });
 
-
-
+app.UseCors("Acesso Total");
 app.Run();
 
 AppDataContext ctx = new AppDataContext();
