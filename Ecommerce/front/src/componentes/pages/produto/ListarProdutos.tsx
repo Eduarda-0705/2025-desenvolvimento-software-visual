@@ -10,7 +10,7 @@ import Produto from "../../../models/Produto";
 
 function ListarProdutos(){
 
-    //Estados - São as nossas Variáveis
+    //Estados - São as nossas Variáveis entenda produtos como um get, por exemplo.
     const [produtos, setProdutos] = useState<Produto[]>([]);
     
     // Realiza operações ao carregar o componente 
