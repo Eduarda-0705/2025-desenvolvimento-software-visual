@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Produto from "../../../models/Produto";
+import axios from "axios";
 //Componente
 // - Composto por HTML, CSS e JS ou TS.
 
@@ -16,19 +17,13 @@ function ListarProdutos(){
     // Realiza operações ao carregar o componente 
     useEffect(() => {
         console.log("O componente foi carregado!");
-        buscarProdutos();
+        buscarProdutosAPI();
     }, []);
 
-    async function buscarProdutos(){
+    async function buscarProdutosAPI(){
         try {
-            const resposta = await fetch("http://localhost:5244/api/produto/listar");
-            // console.log(resposta);
-            if(!resposta.ok){
-                throw new Error("Erro na requisição: " + resposta.statusText)
-            }
-
-            const dados = await resposta.json();
-            setProdutos(dados);
+             const resposta = await axios.get("http://localhost:5244/api/produto/listar");
+             setProdutos(resposta.data);
         } catch (error) {
             console.log("Erro na requisição: " + error);
         }
@@ -52,7 +47,7 @@ function ListarProdutos(){
             </thead>
             <tbody>
                  {produtos.map((produto) => (
-                 <tr>
+                 <tr key={produto.id}>
                     <td>{produto.id}</td>
                     <td>{produto.nome}</td>
                     <td>{produto.descricao}</td>
