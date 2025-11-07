@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Produto from "../../../models/Produto";
 import axios from "axios";
+import { Link } from "react-router-dom";
 //Componente
 // - Composto por HTML, CSS e JS ou TS.
 
@@ -30,6 +31,19 @@ function ListarProdutos(){
         
     }
 
+    async function deletarProduto(id : string){
+        // alert("Cliquei no botão");
+        // alert(id);
+         try {
+             const resposta = await axios.delete(`http://localhost:5244/api/produto/remover/${id}`);
+             buscarProdutosAPI();
+        } catch (error) {
+            console.log("Erro ao deletar o produto: " + error);
+        }
+        
+    }
+
+
 //O return é a parte visual do componente
     return(
        <div id="listar_produtos">
@@ -43,6 +57,8 @@ function ListarProdutos(){
                     <th>Quantidade</th>
                     <th>Preço</th>
                     <th>Criado Em</th>
+                    <th>Deletar</th>
+                    <th>Alterar</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,6 +70,10 @@ function ListarProdutos(){
                     <td>{produto.quantidade}</td>
                     <td>{produto.preco}</td>
                     <td>{produto.criadoEm}</td>
+                    <td><button onClick={() => deletarProduto(produto.id!)}>Deletar</button></td>
+                    <td>
+                        <Link to={`/produto/alterar/${produto.id}`}>Alterar</Link>
+                    </td>
                  </tr>
         ))}
             </tbody>
